@@ -1,3 +1,46 @@
+# Angular
+# =========================
+Frontend/node_modules/
+Frontend/.angular/
+Frontend/dist
+Frontend/tmp
+Frontend/out-tsc
+Frontend/bazel-out
+
+# Spring Boot / Java
+# =========================
+Backend/target/
+Backend/*.class
+
+# Environment files
+# =========================
+.env
+.env.*
+Frontend/.env
+Frontend/.env.*
+Backend/.env
+Backend/.env.*
+
+# Spring Boot configuration
+# =========================
+Backend/src/main/resources/application.properties
+Backend/src/main/resources/application.yml
+Backend/src/main/resources/application-*.properties
+Backend/src/main/resources/application-*.yml
+Backend/src/main/java/com/srivani/config/util/ConnectionUtil.java
+
+# IDE
+# =========================
+.idea/
+.vscode/
+*.iml
+
+# OS
+# =========================
+.DS_Store
+Thumbs.db
+
+
 # Compiled class file
 *.class
 

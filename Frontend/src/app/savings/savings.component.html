@@ -1,0 +1,123 @@
+<div class="savings-page">
+    <section class="top">
+        <div class="card overview">
+            <div class="overview-head">
+                <div>
+                    <h3
+                        style="margin-bottom: 0px;font-weight: bold; font-weight: 900; font-family: 'Inter', sans-serif;">
+                        Savings Overview</h3>
+                    <p>Across all goals</p>
+                </div>
+                <span class="overall-badge">{{ overallPct }}% funded</span>
+            </div>
+            <div class="overview-nums">
+                <div>
+                    <p class="ov-label">Total saved</p>
+                    <p class="ov-value">{{ totalSaved | money }}</p>
+                </div>
+                <div>
+                    <p class="ov-label">Total target</p>
+                    <p class="ov-value muted">{{ totalTarget | money }}</p>
+                </div>
+            </div>
+            <div class="progress big" style="margin-top: 15px;">
+                <div class="progress-fill" [style.width.%]="overallPct"></div>
+            </div>
+        </div>
+
+        <div class="card chart-card">
+            <div class="panel-head">
+                <div>
+                    <h3 style="margin-bottom: 0px;font-weight: bold;font-family: 'Inter', sans-serif;">Allocation</h3>
+                    <p>Saved per goal</p>
+                </div>
+            </div>
+
+
+            <div class="donut-wrap">
+                <svg viewBox="0 0 120 120" class="donut" role="img" [attr.aria-label]="ariaLabel">
+
+                    <circle *ngIf="+totalSaved === 0" cx="60" cy="60" r="46" fill="none" stroke="var(--surface-3)"
+                        stroke-width="16">
+                    </circle>
+
+                    <circle *ngFor="let seg of segments; trackBy: trackByLabel" cx="60" cy="60" r="46" fill="none"
+                        [attr.stroke]="seg.color" stroke-width="16" stroke-linecap="round"
+                        [attr.stroke-dasharray]="seg.dashArray" [attr.stroke-dashoffset]="seg.dashOffset"
+                        transform="rotate(-90 60 60)">
+                    </circle>
+
+                    <text x="60" y="55" text-anchor="middle" class="donut-center-label">
+                        {{ centerLabel }} </text>
+
+                    <text x="60" y="72" text-anchor="middle" class="donut-center-value"> {{ totalSaved | money }}
+                    </text>
+                </svg>
+
+                <ul class="legend">
+                    <li *ngFor="let seg of segments; trackBy: trackByLabel">
+                        <span class="dot" [style.background]="seg.color"> </span>
+                        <span class="legend-label"> {{ seg.goalName }} </span>
+                        <span class="legend-value">
+                            {{ seg.savedAmount | money }}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="grid">
+        <aside class="card form-panel">
+            <h3 style="font-weight: bold;margin-bottom: 0px;font-family: 'Inter', sans-serif;">New savings goal</h3>
+            <p class="form-desc">Set a target and start putting money aside.</p>
+            <div class="alert error" *ngIf="errorMessage!=''">{{ errorMessage }}</div>
+            <div class="alert success" *ngIf="successMessage!=''">{{ successMessage }}</div>
+            <form (ngSubmit)="addGoal()">
+                <div class="field">
+                    <label for="gname">Goal name</label>
+                    <input id="gname" name="gname" type="text" placeholder="e.g. New Car" [(ngModel)]="info.goalName" />
+                </div>
+                <div class="field">
+                    <label for="gtarget">Target amount (USD)</label>
+                    <input id="gtarget" name="gtarget" type="number" min="0" step="1" placeholder="5000"
+                        [(ngModel)]="info.targetAmount" />
+                </div>
+                <div class="field">
+                    <label for="ginitial">Initial deposit (optional)</label>
+                    <input id="ginitial" name="ginitial" type="number" min="0" step="1" placeholder="0"
+                        [(ngModel)]="info.initialAmount" />
+                </div>
+                <button class="btn btn-primary btn-block" type="submit" *ngIf="!createSpinner">Create goal</button>
+                <button class="btn btn-primary btn-block" *ngIf="createSpinner">Creating...</button>
+            </form>
+        </aside>
+        <section class="goals">
+            <div class="card goal-card" *ngFor="let g of goals">
+                <div class="goal-card-top">
+                    <div class="goal-mark" [style.background]="g.color"></div>
+                    <div class="goal-info">
+                        <span class="goal-name" style="font-family: 'Inter', sans-serif;">{{ g.goalName }}</span>
+                        <span class="goal-sub">{{ g.savedAmount | money }} of {{ g.targetAmount | money }}</span>
+                    </div>
+                    <span class="goal-pct">{{ pct(g.savedAmount, g.targetAmount) }}%</span>
+                </div>
+
+                <div class="progress">
+                    <div class="progress-fill" [style.width.%]="pct(g.savedAmount, g.targetAmount)"
+                        [style.background]="g.color">
+                    </div>
+                </div>
+
+                <p class="goal-done" *ngIf="+g.savedAmount >= +g.targetAmount">Goal reached — nice work!</p>
+                <div class="contribute" *ngIf="!(+g.savedAmount >= +g.targetAmount)">
+                    <input type="number" min="0" step="1" placeholder="Add amount" [(ngModel)]="contrib[g.goalId]"
+                        [name]="'c-' + g.goalId" aria-label="Contribution amount" />
+                    <button class="btn btn-ghost" (click)="contribute(g)">Add</button>
+                    <!-- <button class="btn btn-ghost" (click)="contribute(g.goalId)">Add</button> -->
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
