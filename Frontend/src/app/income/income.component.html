@@ -1,0 +1,128 @@
+<div class="tx-page">
+    <div class="filter-controls">
+        <div class="filter-field">
+            <label for="expenseDate">Select Date</label>
+            <input id="expenseDate" name="expenseDate" type="month" [(ngModel)]="selectedDate"
+                (change)="onDateChange()">
+        </div>
+    </div>
+    <!-- Summary strip -->
+    <section class="summary card">
+        <div>
+            <p class="summary-label">Total Income </p>
+            <p class="summary-value">{{ totalIncome | money }}</p>
+        </div>
+        <div class="summary-count">
+            <span>{{ items.length }}</span>
+            <small>entries</small>
+        </div>
+    </section>
+
+    <div class="grid">
+        <!-- Add form -->
+        <aside class="card form-panel">
+            <h3>Add income</h3>
+            <p class="form-desc">Record a new income source.</p>
+
+            <div class="alert error" *ngIf="errorMessage!=''">{{ errorMessage }}</div>
+
+            <div class="alert success" *ngIf="successMessage!=''">{{ successMessage }}</div>
+
+            <form (ngSubmit)="add()">
+                <div class="field">
+                    <label for="title">Description</label>
+                    <input id="title" name="title" type="text" [placeholder]="'e.g. Monthly Salary'"
+                        [(ngModel)]="info.description" />
+                </div>
+
+                <div class="field">
+                    <label for="category">Category</label>
+                    <select id="category" name="category" [(ngModel)]="info.category">
+                        <div *ngFor="let c of categories">
+                            <option [value]="c">{{ c }}</option>
+                        </div>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="amount">Amount (INR)</label>
+                    <input id="amount" name="amount" type="number" min="0" step="0.01" placeholder="0.00"
+                        [(ngModel)]="info.amount" />
+                </div>
+
+                <div class="field">
+                    <label for="date">Date</label>
+                    <input id="date" name="date" type="date" [(ngModel)]="info.date" />
+                </div>
+
+                <!-- <button class="btn btn-primary btn-block" type="submit">
+                    Add income </button> -->
+                <button class="btn btn-primary btn-block" type="submit" [disabled]="addSpinner">
+                    {{ addSpinner ? 'Adding…' : 'Add income' }}
+                </button>
+            </form>
+        </aside>
+
+        <section class="card list-panel">
+
+            <div class="list-head">
+                <h3>Income history</h3>
+            </div>
+
+            <!-- Empty state -->
+            <div class="empty" *ngIf="items.length === 0">
+                <p>No entries yet. Add your first one using the form.</p>
+            </div>
+
+            <!-- List -->
+            <div class="table" role="table" *ngIf="items.length > 0">
+
+                <div class="thead" role="row">
+                    <span role="columnheader">Description</span>
+                    <span role="columnheader">Category</span>
+                    <span role="columnheader">Date</span>
+                    <span role="columnheader" class="ta-right">Amount</span>
+                    <span role="columnheader" class="sr-only">Actions</span>
+                </div>
+
+                <div class="trow" role="row" *ngFor="let t of items">
+
+                    <span class="cell-title" role="cell" style="font-family: 'Inter', sans-serif;">
+                        {{ t.description }}
+                    </span>
+
+                    <span role="cell">
+                        <span class="chip">
+                            {{ t.category }}
+                        </span>
+                    </span>
+
+                    <span class="cell-date" role="cell">
+                        {{ t.date }}
+                    </span>
+
+                    <span class="cell-amt ta-right" role="cell"
+                        style="font-family: 'Inter', sans-serif;color: var(--primary)">
+                        +{{ t.amount | money }}
+                    </span>
+
+                    <span role="cell" class="ta-right">
+
+                        <button class="del-btn" (click)="remove(t.id)" [attr.aria-label]="'Delete ' + t.title">
+
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6" />
+                            </svg>
+
+                        </button>
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+    </div>
+</div>

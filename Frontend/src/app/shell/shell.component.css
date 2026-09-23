@@ -1,0 +1,238 @@
+:host {
+    display: block;
+}
+
+.shell {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 22px 16px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 6px 8px 22px;
+}
+
+.brand-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--primary);
+    display: grid;
+    place-items: center;
+}
+
+.brand-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 19px;
+    letter-spacing: -0.02em;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 12px;
+    border-radius: 11px;
+    color: var(--text-muted);
+    font-size: 14.5px;
+    font-weight: 500;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.nav-item:hover {
+    background: var(--surface-3);
+    color: var(--text);
+}
+
+.nav-item.active {
+    background: var(--primary-soft);
+    color: var(--primary);
+}
+
+.sidebar-foot {
+    margin-top: auto;
+}
+
+.promo {
+    padding: 14px;
+}
+
+.promo-title {
+    margin: 0 0 4px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.promo-text {
+    margin: 0;
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.45;
+}
+
+.scrim {
+    display: none;
+}
+
+/* Main */
+.main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 26px;
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--app-bg) 88%, transparent);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    backdrop-filter: blur(8px);
+}
+
+.header-title h1 {
+    font-size: 20px;
+    margin-bottom: 0px;
+    font-weight: 900;
+    font-family: 'Inter', sans-serif;
+    /* font-family: 'Open Sans', sans-serif; */
+}
+
+.header-title p {
+    margin-top: 0px;
+    /* margin: 2px 0 0; */
+    font-size: 13px;
+    color: var(--text-dim);
+}
+
+.header-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    display: grid;
+    place-items: center;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.icon-btn:hover {
+    background: var(--surface-3);
+    color: var(--text);
+}
+
+.burger {
+    display: none;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 10px 4px 4px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: var(--primary);
+    color: #04160d;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.user-name {
+    font-size: 13.5px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+}
+
+.content {
+    padding: 26px;
+    flex: 1;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .sidebar {
+        position: fixed;
+        z-index: 40;
+        left: 0;
+        top: 0;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+        box-shadow: var(--shadow);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .scrim {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 30;
+    }
+
+    .burger {
+        display: grid;
+    }
+
+    .user-name {
+        display: none;
+    }
+
+    .content {
+        padding: 18px 16px;
+    }
+
+    .header {
+        padding: 14px 16px;
+    }
+}

@@ -1,0 +1,71 @@
+<div class="auth">
+    <aside class="aside">
+        <div class="aside-brand">
+            <span class="mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#04160d" stroke-width="2.2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2v20M2 12h20" />
+                </svg>
+            </span>
+            <span>Expense Tracker</span>
+        </div>
+
+        <div class="aside-copy">
+            <h2 class="text-balance">Start your money journey today.</h2>
+            <p> Create a free account and get an instant, clear picture of your income,
+                spending, and savings goals. </p>
+        </div>
+
+        <div class="aside-stats">
+            <!-- <div class="stat"><b>Free</b><span>no card required</span></div>
+            <div class="stat"><b>2 min</b><span>quick setup</span></div>
+            <div class="stat"><b>Secure</b><span>private by design</span></div> -->
+        </div>
+    </aside>
+
+    <section class="panel">
+        <div class="form-card">
+            <div class="form-head">
+                <h1>Create your account</h1>
+                <p>Join and take charge of your finances.</p>
+            </div>
+
+            <div class="alert error" *ngIf="errorMessage!=''">{{errorMessage}}</div>
+
+            <form (ngSubmit)="submit()">
+                <div class="field">
+                    <label for="name">Full name</label>
+                    <input id="name" type="text" name="name" autocomplete="name" placeholder="Vani Talasila"
+                        [(ngModel)]="info.username">
+                </div>
+
+                <div class="field">
+                    <label for="email">Email address</label>
+                    <input id="email" type="email" name="email" autocomplete="email" placeholder="you@example.com"
+                        [(ngModel)]="info.email">
+                </div>
+
+                <div class="field">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" name="password" autocomplete="new-password"
+                        placeholder="At least 8 characters" [(ngModel)]="info.password">
+                </div>
+
+                <div class="field">
+                    <label for="confirm">Confirm password</label>
+                    <input id="confirm" type="password" name="confirm" autocomplete="new-password"
+                        placeholder="Re-enter your password" [(ngModel)]="info.confirmpwd">
+                </div>
+
+                <button class="btn btn-primary btn-block" type="submit" [disabled]="loading">
+                    {{ loading ? 'Creating account…' : 'Create account' }}
+                </button>
+            </form>
+
+            <p class="form-foot">
+                Already have an account?
+                <a class="link" routerLink="/login">Sign in</a>
+            </p>
+        </div>
+    </section>
+</div>
